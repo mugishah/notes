@@ -1,0 +1,25 @@
+GET http://localhost:5001/api/notes
+###
+GET http://localhost:5001/api/notes/6447b5f882afc015ca5994ca
+###
+
+POST http://localhost:5001/api/notes
+Content-Type: application/json
+
+{
+  "title": "My first note",
+  "text": "This is my second note"
+}
+
+###
+
+PUT http://localhost:5001/api/notes/6447cce8966ee4182e16022c
+Content-Type: application/json
+
+{
+  "title": "My last note",
+  "text": "This is my second note"
+}
+
+###
+DELETE http://localhost:5001/api/notes/6447c5b3a408d787a740d83a
