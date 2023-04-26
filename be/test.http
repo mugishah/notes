@@ -7,18 +7,18 @@ POST http://localhost:5001/api/notes
 Content-Type: application/json
 
 {
-  "title": "My first note",
-  "text": "This is my second note"
+  "title": "Third notes ",
+  "text": "This is my third note \nNext line"
 }
 
 ###
 
-PUT http://localhost:5001/api/notes/6447cce8966ee4182e16022c
+PUT http://localhost:5001/api/notes/6447b5f882afc015ca5994ca
 Content-Type: application/json
 
 {
-  "title": "My last note",
-  "text": "This is my second note"
+  "title": "My very second note",
+  "text": "This is my very second note"
 }
 
 ###
