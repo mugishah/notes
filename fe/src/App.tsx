@@ -1,21 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { Note as NoteModel } from './models/note';
-import Note  from './components/Note';
+import Note from './components/Note';
+import AddNoteModal from './components/Note.modal';
 import { Col, Container, Row } from 'react-bootstrap';
 import styles from './styles/NotesPage.module.css';
+import * as noteAPI from './api/notes';
 
 function App() {
   const [notes, setNotes] = useState<NoteModel[]>([]);
 
+  const [showAddNoteModal, setShowAddNoteModal] = useState(true);
+
   useEffect(() => {
-    try {
-      fetch('/api/notes', { method: 'GET' })
-      .then(response => response.json())
-      .then(data => setNotes(data));
-    } catch (error) {
-      console.error(error);
-      alert('Error fetching notes');
+    const fetchNotes = async () => {
+      try {
+        const notes = await noteAPI.getNotes();
+        setNotes(notes);
+      } catch (error) {
+        console.error(error);
+        alert('Error fetching notes');
+      }
     }
+  fetchNotes();
   }, []);
 
   return (
@@ -27,6 +33,7 @@ function App() {
           </Col>
         ))}
       </Row>  
+      {showAddNoteModal && <AddNoteModal />}
     </Container>
   );
   
