@@ -2,8 +2,10 @@ import styles from '../styles/Note.module.css';
 import { INote as INoteProps } from '../interfaces/INote';
 import { Card } from 'react-bootstrap';
 import { formatDate } from '../utils/formatDate';
+import { MdDelete } from 'react-icons/md';
+import styleUtils  from '../styles/utils.module.css'
 
-const Note = ({ note, className }: INoteProps ) => {
+const Note = ({ note, className, onDeleteClicked, onNoteClicked }: INoteProps ) => {
 
   // set up the note object
   const {
@@ -24,10 +26,23 @@ const Note = ({ note, className }: INoteProps ) => {
 
   return (
     <>
-      <Card className={`${styles.noteCard} ${className}`}>
+      <Card 
+        className={`${styles.noteCard} ${className}`}
+        onClick={() => onNoteClicked(note)}>
         <Card.Body className={styles.cardBody}>
-          <Card.Title>{title}</Card.Title>
-          <Card.Text className={styles.cardText}>{text}</Card.Text>
+          <Card.Title className={styleUtils.flexCenter}>
+            {title}
+            <MdDelete 
+              className="text-muted ms-auto"
+              onClick={(event)=> {
+                onDeleteClicked(note);
+                event.stopPropagation();
+              }}
+            />
+          </Card.Title>
+          <Card.Text className={styles.cardText}>
+            {text}
+          </Card.Text>
         </Card.Body>
         <Card.Footer className="text-muted">
           {createdUpdatedText}
