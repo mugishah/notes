@@ -8,5 +8,5 @@ const noteSchema = new Schema({
 // creates a type Note from the schema above 
 type Note = InferSchemaType<typeof noteSchema>
 
-// export the model with the type Note
+// export the model as a Note type
 export default model<Note>('Note', noteSchema);

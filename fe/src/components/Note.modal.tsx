@@ -2,6 +2,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { Note } from "../models/note";
 import { useForm } from "react-hook-form";
 import * as noteAPI from '../api/notes';
+import TextInputField from "./form/TextInputField";
 
 
 interface NoteProps {
@@ -36,35 +37,33 @@ const NoteModal = ({ onUpdate, onDismiss, onSave }: NoteProps) => {
 
   return (  
     <Modal show onHide={()=> onDismiss()}>
-      <Modal.Header>
+      <Modal.Header closeButton>
         <Modal.Title>
          {onUpdate ? 'Update ' : 'Add '} note
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form id="addUpdateNoteForm" onSubmit={handleSubmit(onSubmit)}>
-          <Form.Group className="mb-3">
-            <Form.Label >Title</Form.Label>
-            <Form.Control 
-              type="text" 
-              placeholder="Title" 
-              id="title" 
-              isInvalid={!!errors.title}
-              {...register("title", { required: true })}
-            />
-            <Form.Control.Feedback type="invalid">
-              {errors.title?.message && 'Title is required'}
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group className="form-group">
-            <Form.Label>Text</Form.Label>
-            <Form.Control 
-              as="textarea" 
-              placeholder="Text" 
-              rows={5} 
-              {...register("text", )}
-            />
-          </Form.Group>
+
+          <TextInputField 
+            name="title" 
+            label="Title" 
+            type="text"
+            placeholder="Title"
+            register={ register } 
+            registerOptions={{ required: 'Required' }}
+            error={errors.title}
+          />
+
+          <TextInputField 
+            name="text"
+            label="Text"
+            as="textarea"
+            rows={ 5 }
+            placeholder="Text"
+            register={ register }
+          />
+         
         </Form>
       </Modal.Body>
       <Modal.Footer>

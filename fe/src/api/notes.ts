@@ -1,4 +1,5 @@
 import { Note } from "../models/note"
+import { User } from "../models/user"
 
 // This is a generic function that can be used to fetch data from the API
 export const fetchData = async (input: RequestInfo, init?: RequestInit) => {
@@ -10,6 +11,38 @@ export const fetchData = async (input: RequestInfo, init?: RequestInit) => {
     const errorMessage = errorBody.message
     throw new Error(errorMessage)
   }
+}
+
+export const getLoggedInUser = async (): Promise<User> => {
+  const response = await fetchData("/api/users", { method: "GET" })
+  return response.json()
+}
+
+export const signUp = async (user: User): Promise<User> => {
+
+  const response = await fetchData('/api/users/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user)
+  })
+  return response.json(); 
+}
+
+export const login = async (user: User): Promise<User> => {
+  const response = await fetchData('/api/users/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user)
+  })
+  return response.json(); 
+} 
+
+export const logout = async () => {
+  await fetchData('/api/users/logout', { method: 'POST'})
 }
 
 export const getNotes = async (): Promise<Note[]> => {
