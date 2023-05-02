@@ -1,1 +1,2 @@
 # notes
+A MERN app
