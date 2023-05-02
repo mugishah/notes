@@ -14,7 +14,7 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null)
 
   const [showSignUpModal, setShowSignUpModal] = useState(false)
-  const [showLoginModal, setShowLogiModal] = useState(false)
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   useEffect(()=>{
     const fetchLoggedInUser = async () =>{
@@ -33,7 +33,7 @@ function App() {
     <NavBar 
       loggedInUser={loggedInUser} 
       onSignUpClicked={() => setShowSignUpModal(true)} 
-      onLoginClicked={() => setShowLogiModal(true)} 
+      onLoginClicked={() => setShowLoginModal(true)} 
       onLogoutSuccesful={() => setLoggedInUser(null)} 
     />
     <Container className={styles.notesPage}>
@@ -44,17 +44,24 @@ function App() {
           <NotesPageLoggedOutView />
         }
       </>
-      {showSignUpModal &&
-        <SignUpModal
-          onDismiss={() => { } }
-          onSignUpSuccessful={() => { } } />
-      }
-      {showLoginModal &&
-        <LoginModal
-          onDismiss={() => { } }
-          onLoginSuccessful={() => { } } />
-      }
     </Container>
+    {showSignUpModal &&
+        <SignUpModal
+          onDismiss={() => setShowSignUpModal(false)}
+          onSignUpSuccessful={(user) => {
+             setLoggedInUser(user);
+             setShowSignUpModal(false);            
+          } } />
+    }
+    {showLoginModal &&
+        <LoginModal
+          onDismiss={() => setShowLoginModal(false) }
+          onLoginSuccessful={(user) => { 
+            setLoggedInUser(user)
+            setShowLoginModal(false);
+          }}
+          />
+    }
     </>
   );
   

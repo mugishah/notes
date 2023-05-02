@@ -63,7 +63,7 @@ const LoginModal = ({
             disabled={isSubmitting}
             className={styleUtils.width100}
           >
-            Sign up
+            Login
         </Button>
         </Form>
       </Modal.Body>
