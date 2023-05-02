@@ -1,9 +1,11 @@
 import { useForm } from "react-hook-form";
 import { User } from "../models/user";
 import * as NotesApi from "../api/notes"
-import { Button, Form, Modal } from "react-bootstrap";
+import { Alert, Button, Form, Modal } from "react-bootstrap";
 import TextInputField from "./form/TextInputField";
 import styleUtils from '../styles/utils.module.css'
+import { ConflictError } from "../errors/http.errors";
+import { useState } from "react";
 
 interface IProps {
   onDismiss: () => void,
@@ -15,6 +17,7 @@ const SignUpModal = ({
   onSignUpSuccessful
 }: IProps) => {
 
+  const [errorText, setErrorText] = useState<string | null>(null);
   const { register, handleSubmit, formState: { errors, isSubmitting }  } = useForm<User>();
 
   const onSubmit = async (user: User) => {
@@ -22,7 +25,11 @@ const SignUpModal = ({
       const newUser = await NotesApi.signUp(user);
       onSignUpSuccessful(newUser);
     } catch (error) {
+      if(error instanceof ConflictError){
+        setErrorText(error.message)
+      } else {
       alert(error)
+      }
       console.error(error);
     }
   }
@@ -37,6 +44,11 @@ const SignUpModal = ({
       </Modal.Header>
 
       <Modal.Body>
+      {errorText && 
+          <Alert variant="danger">
+            {errorText}
+          </Alert>
+        }
         <Form onSubmit={handleSubmit(onSubmit)}>
 
           <TextInputField 
